@@ -182,7 +182,7 @@ class PasteController extends Controller
         $diffTimestamp = time() - $timestampUpdated;
         
         // On génère les messages d'expire et on fait expirer la paste dans la BDD si elle l'est
-        if($paste->expiration == "never") {
+        if($paste->expiration == "0") {
           $expired = false;
         }
         elseif($paste->expiration == "burn") {
@@ -212,7 +212,7 @@ class PasteController extends Controller
           if ($diffTimestamp > 604800) $expired = true;
           else $expired = false;
         }
-        elseif($paste->expiration == "expired") {
+        elseif($paste->expiration == "expired" || time() > strtotime($paste->expiration)) {
           $alreadyExpired = true;
           $expired = true;
         }
